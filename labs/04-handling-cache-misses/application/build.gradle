@@ -17,15 +17,21 @@ dependencies {
 mainClassName = 'com.example.application.Main'
 
 test {
-    def integrationTestSamples = file('src/integration-test-samples')
-    environment.INTEGRATION_TEST_SAMPLES = integrationTestSamples.absolutePath
-//    inputs.dir(integrationTestSamples)
-//        .withPropertyName('integrationTestSamples')
-//        .withPathSensitivity(PathSensitivity.RELATIVE)
+   def integrationTestSamples = file('src/integration-test-samples')
+   environment.INTEGRATION_TEST_SAMPLES = integrationTestSamples.absolutePath
+   // This makes sure that we take into account files under
+   // "src/integrationTestSamples-test-samples" when running tests. Otherwise,
+   // tests will pass when the test sample files change.
+   inputs.dir(integrationTestSamples)
+       .withPropertyName('integrationTestSamples')
+       .withPathSensitivity(PathSensitivity.RELATIVE)
 }
 
-//normalization {
-//    runtimeClasspath {
-//        ignore 'build-info.properties'
-//    }
-//}
+// This makes sure that "build-info.properties" is ignored when building
+// "build-info", otherwise the task would be a cache miss every time because
+// build-info.properties has a timestamp that keeps changing.
+normalization {
+   runtimeClasspath {
+       ignore 'build-info.properties'
+   }
+}
