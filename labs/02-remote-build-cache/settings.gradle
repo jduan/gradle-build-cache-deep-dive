@@ -11,5 +11,9 @@ buildCache {
     remote(HttpBuildCache) {
         push = true
         url = 'https://enterprise-training.gradle.com/cache/'
+        // credentials {
+        //     username = System.getProperty('')
+        //     password = System.getProperty('')
+        // }
     }
 }
